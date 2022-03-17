@@ -1,6 +1,7 @@
 package ru.ylabs.crosszero.component;
 
 import java.util.Scanner;
+import static java.util.Objects.isNull;
 import ru.ylabs.crosszero.console.DataPrinter;
 import ru.ylabs.crosszero.model.GameTable;
 import ru.ylabs.crosszero.model.Player;
@@ -14,6 +15,8 @@ public class Game {
     private final DataPrinter dataPrinter;
 
     private final ValidatorService validatorService;
+
+    private final LoggerPoint loggerPoint;
 
     public Player getWinnerPlayer() {
         return winnerPlayer;
@@ -32,11 +35,13 @@ public class Game {
     private GameTable gameTable;
 
     public Game(final Player player1, final Player player2, final DataPrinter dataPrinter,
-                final ValidatorService validatorService, GameTable gameTable) {
+                final ValidatorService validatorService, final LoggerPoint loggerPoint,
+                GameTable gameTable) {
         this.player1 = player1;
         this.player2 = player2;
         this.dataPrinter = dataPrinter;
         this.validatorService = validatorService;
+        this.loggerPoint = loggerPoint;
         this.gameTable = gameTable;
     }
 
@@ -51,6 +56,7 @@ public class Game {
                 dataPrinter.printGameTable(gameTable);
 
                 if (validatorService.isWinner(gameTable, player)) {
+                    setWinnerPlayer(player);
                     dataPrinter.printInfoMessage(player + " WIN!");
                     gameOver();
                     return;
@@ -67,16 +73,16 @@ public class Game {
 //    TODO: Вынести окончания игры в отдельный слой.
     private void gameOver() {
         dataPrinter.printInfoMessage("GAME OVER!");
-        dataPrinter.printInfoMessage("Продолжить играть или ввести рейтинг ? ");
+        dataPrinter.printInfoMessage("Продолжить играть или записать рейтинг ? ");
         dataPrinter.printInfoMessage("Продолжить играть - нажми 1");
-        dataPrinter.printInfoMessage("Продолжить играть - нажми 2");
-
+        dataPrinter.printInfoMessage("Запись очков - нажми 2");
 
         int command = Integer.parseInt(new Scanner(System.in).nextLine());
         if (command == 1) {
             setGameTable(new GameTable());
-        } else if (command == 2) {
-//            TODO: добавить сервисы для записи очков
+            play();
+        } else if (command == 2 && !isNull(winnerPlayer)) {
+            loggerPoint.logg(winnerPlayer);
             return;
         }
     }

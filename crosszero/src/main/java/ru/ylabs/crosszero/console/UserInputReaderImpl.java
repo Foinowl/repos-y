@@ -18,7 +18,7 @@ public class UserInputReaderImpl implements UserInputReader{
     @Override
     public Cell getUserInput() {
         while (true) {
-            dataPrinter.printInfoMessage("Please type number between 1 and 9:");
+            dataPrinter.printInfoMessage("Выберите номер от 1 до 9");
             final String userInput = new Scanner(System.in).nextLine();
             if (userInput.length() == 1) {
                 final char ch = userInput.charAt(0);

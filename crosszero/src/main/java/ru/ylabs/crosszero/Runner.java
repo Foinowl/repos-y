@@ -1,7 +1,10 @@
 package ru.ylabs.crosszero;
 
+import java.io.IOException;
 import ru.ylabs.crosszero.component.Game;
 import ru.ylabs.crosszero.component.GameMoveService;
+import ru.ylabs.crosszero.component.LoggerFile;
+import ru.ylabs.crosszero.component.LoggerPoint;
 import ru.ylabs.crosszero.component.Move;
 import ru.ylabs.crosszero.component.ValidatorService;
 import ru.ylabs.crosszero.config.CommandLineArgumentParser;
@@ -14,8 +17,10 @@ import ru.ylabs.crosszero.console.UserInputReaderImpl;
 import ru.ylabs.crosszero.model.GameTable;
 
 public class Runner {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         CommandLineArgumentParser commandParser = new CommandLineArgumentParser(args);
+
+        final LoggerPoint loggerPoint = new LoggerFile("crosszero\\src\\main\\resources\\score.txt");
 
         final CellNumberConverter consoleNumberConverter = new ConsoleNumberConverter();
         final DataPrinter dataPrinter = new DataPrinterImpl(consoleNumberConverter);
@@ -28,6 +33,6 @@ public class Runner {
 
         final ValidatorService validatorService = new ValidatorService();
 
-        new Game(lineArguments.getPlayer1(), lineArguments.getPlayer2(), dataPrinter, validatorService, gameTable).play();
+        new Game(lineArguments.getPlayer1(), lineArguments.getPlayer2(), dataPrinter, validatorService, loggerPoint, gameTable).play();
     }
 }
