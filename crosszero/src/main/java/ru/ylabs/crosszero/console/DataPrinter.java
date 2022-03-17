@@ -1,4 +1,4 @@
-package ru.ylabs.crosszero.component;
+package ru.ylabs.crosszero.console;
 
 import ru.ylabs.crosszero.model.GameTable;
 

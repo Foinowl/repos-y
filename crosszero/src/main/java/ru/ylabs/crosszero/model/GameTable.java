@@ -18,6 +18,10 @@ public class GameTable {
         table[cell.getRow()][cell.getCol()] = sign;
     }
 
+    public boolean isEmpty(final Cell cell) {
+        return table[cell.getRow()][cell.getCol()] == EMPTY;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GameTable{");

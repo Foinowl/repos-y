@@ -21,15 +21,28 @@ public class CommandLineArgumentParser {
             if (player1 == null) {
                 player1 = new Player(param, Sign.X, new Move() {
                     public void make(final GameTable gameTable, final Sign sign) {
-
                     }
                 });
             } else if (player2 == null) {
-                player2 = new Player(param, Sign.X, new Move() {
+                player2 = new Player(param, Sign.O, new Move() {
                     public void make(final GameTable gameTable, final Sign sign) {
-
                     }
                 });
+            }
+            ;
+        }
+        return new CommandLineArguments(player1, player2);
+    }
+
+    public CommandLineArguments parse(Move move) {
+        Player player1 = null;
+        Player player2 = null;
+
+        for (final String  param: args){
+            if (player1 == null) {
+                player1 = new Player(param, Sign.X, move);
+            } else if (player2 == null) {
+                player2 = new Player(param, Sign.O, move);
             }
             ;
         }
